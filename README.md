@@ -8,6 +8,8 @@ in a gmail draft, and sent it the day I was going - but I am forgetful and
 sometimes lazy. If I have a command line utility that I can just run next time
 I am in a terminal (which is always) -- all the easier.
 
+Also, this is far from perfect. But it Works For Me(tm).
+
 Yeah, but why PHP and why Ruby?
 -------------------------------
  * Because I wanted to
@@ -36,7 +38,7 @@ Using eat.rb
 
 License
 -------
-Copyright (c) 2013 Patrick Cable <pc at p cable dot net>
+Copyright (c) 2013 Patrick Cable (pc at p cable dot net)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
