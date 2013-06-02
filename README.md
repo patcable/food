@@ -4,15 +4,15 @@ food
 A terribly simple app to fill a SelfOps need.
 
 My trainer often asks me to write down what I eat. Historically, I kept that 
-in a gmail draft, and sent it the day I was going - but I am forgetfull and 
+in a gmail draft, and sent it the day I was going - but I am forgetful and 
 sometimes lazy. If I have a command line utility that I can just run next time
 I am in a terminal (which is always) -- all the easier.
 
 Yeah, but why PHP and why Ruby?
---------------
- * Because I wanted to.
+-------------------------------
+ * Because I wanted to
  * I wanted to write a client-side util in Ruby
- * I wanted to parse it with PHP. 
+ * I wanted to parse it with PHP
  * I know PHP is the opposite of cool, but its already set up and working on
    my server
 
@@ -25,12 +25,14 @@ If you really want to use this, make a table somewhere that has three columns,
  * `ts` should be a `TIMESTAMP`
  * `content` should be a `VARCHAR(128)`
 
-Edit the variables in eat.php (server side) and eat.rb (client side) and off you go.
+Edit the variables in `eat.php` (server side) and `eat.rb` (client side) and off you go.
+
+If you do use, this, well, that is cool. I would gladly accept any improvements :)
 
 Using eat.rb
 ------------
-Add an entry: `./eat.rb -a yum food`
-Clear the database: `./eat.rb -c`
+* Add an entry: `./eat.rb -a yum food`
+* Clear the database: `./eat.rb -c`
 
 License
 -------
