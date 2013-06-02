@@ -42,23 +42,26 @@
     } else {
         // Display the database here
         date_default_timezone_set($timezone);
+        echo "<!DOCTYPE html>";
         echo "<html><head>";
         echo "<title>Food Log</title>";
+        echo "<link href=\"bootstrap.min.css\" rel=\"stylesheet\" media=\"screen\">";
         echo "</head><body>";
+        echo "<div class=\"container\">";
+        echo "<h1>food.</h1>";
         $dbconnect = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
         if(mysqli_connect_errno()) {
             printf("DB connect failed: %s\n", mysqli_connect_error());
         }
-        #$query = "SELECT UNIX_TIMESTAMP(CONVERT_TZ(ts,'UTC','America/New_York')) as ts,content FROM $dbtabl ORDER BY ts DESC";
         $query = "SELECT UNIX_TIMESTAMP(ts) as ts,content FROM $dbtabl ORDER BY ts DESC";
         $result = mysqli_query($dbconnect, $query);
-        echo "<table><tr><td><strong>Logged at</strong></td><td><strong>Item</strong></td></tr>";
+        echo "<table class=\"table\"><tr><td><strong>Logged at</strong></td><td><strong>Item</strong></td></tr>";
         while($row = mysqli_fetch_assoc($result)) {
             $time = $row['ts'];
             $readableTime = date('D j M h:i a', $time);
             $content = $row['content'];
             echo "<tr><td>$readableTime</td><td>$content</td></tr>";
         }
-        echo "</table></body></html>";
+        echo "</table></div></body></html>";
     }
 ?>
