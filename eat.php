@@ -15,6 +15,11 @@
         if ($decoded === FALSE) {
             throw new Exception('Bad JSON input');
         }
+
+        if(strlen($decoded['Content']) > 128) {
+            echo "Content > 128 characters";
+            exit;
+        }
     
         if($decoded['Token'] == $token) {
             // Token is valid. Go forth.
