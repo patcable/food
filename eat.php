@@ -17,14 +17,19 @@
         }
 
         if(strlen($decoded['Content']) > 128) {
-            echo "Content > 128 characters";
+            echo "ERR_CONTENT_TOO_BIG";
             exit;
         }
-    
+
         if($decoded['Token'] == $token) {
             // Token is valid. Go forth.
             $action = $decoded['Action'];
             $content = $decoded['Content'];
+            // Test doesnt require a SQL connection. I dont think...
+            if($action == "test") {
+                echo "OK_TEST";
+                exit;
+            }
             //Actions will require a MySQL connection, so...
             $dbconnect = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
             if (mysqli_connect_errno()) {
@@ -39,34 +44,48 @@
                 $query = "TRUNCATE TABLE $dbtabl";
                 $result = mysqli_query($dbconnect, $query);
             } else {
-                echo "Invalid action.";
+                echo "ERR_WRONG_ACTION";
+            }
+            // Handle the result
+            if($result) {
+                echo "OK";
+            } else {
+                echo "ERR_DB";
             }
         } else {
-            echo "Invalid Token.";
+            echo "ERR_WRONG_TOKEN";
         }
     } else {
         // Display the database here
         date_default_timezone_set($timezone);
-        echo "<!DOCTYPE html>";
-        echo "<html><head>";
-        echo "<title>Food Log</title>";
-        echo "<link href=\"bootstrap.min.css\" rel=\"stylesheet\" media=\"screen\">";
-        echo "</head><body>";
-        echo "<div class=\"container\">";
-        echo "<h1>food.</h1>";
+        echo "<!DOCTYPE html>\n";
+        echo "<html><head>\n";
+        echo "<title>Food Log</title>\n";
+        echo "<link href=\"bootstrap.min.css\" rel=\"stylesheet\" media=\"screen\">\n";
+        echo "<link href=\"dt-override.css\" rel=\"stylesheet\" media=\"screen\">\n";
+        echo "<script type=\"text/javascript\" language=\"javascript\" src=\"jquery.js\"></script>\n";
+        echo "<script type=\"text/javascript\" language=\"javascript\" src=\"jquery.dataTables.min.js\"></script>\n";
+        echo "<script type=\"text/javascript\" language=\"javascript\" src=\"dt-override.js\"></script>\n";
+        echo "</head><body>\n";
+        echo "<div class=\"container\">\n";
+        echo "<div class=\"page-header\">\n";
+        echo "<h1>food <small>(it's good for you)</small></h1></div>\n";
         $dbconnect = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
         if(mysqli_connect_errno()) {
             printf("DB connect failed: %s\n", mysqli_connect_error());
         }
-        $query = "SELECT UNIX_TIMESTAMP(ts) as ts,content FROM $dbtabl ORDER BY ts DESC";
+        $query = "SELECT UNIX_TIMESTAMP(ts) as ts,content FROM $dbtabl";
         $result = mysqli_query($dbconnect, $query);
-        echo "<table class=\"table\"><tr><td><strong>Logged at</strong></td><td><strong>Item</strong></td></tr>";
+        echo "<table class=\"table table-striped table-bordered table-hover\" id=\"foodtable\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
+        echo "<thead><tr><th>Logged at</th><th>Item</th></tr></thead>\n";
+        echo "<tbody>\n";
         while($row = mysqli_fetch_assoc($result)) {
             $time = $row['ts'];
             $readableTime = date('D j M h:i a', $time);
             $content = $row['content'];
-            echo "<tr><td>$readableTime</td><td>$content</td></tr>";
+            echo "<tr><td>$readableTime</td><td>$content</td></tr>\n";
         }
-        echo "</table></div></body></html>";
+        echo "</tbody>\n";
+        echo "</table>\n</div>\n</body>\n</html>";
     }
 ?>
